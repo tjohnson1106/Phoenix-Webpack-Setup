@@ -12,7 +12,7 @@ config :fs_todo, FsTodoWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [node: [
-    "node_modules/webpack /bin/brunch", "webpack.js",
+    "node_modules/webpack/bin/webpack.js",
     "--mode",
     "development",
     "--watch-stdin",

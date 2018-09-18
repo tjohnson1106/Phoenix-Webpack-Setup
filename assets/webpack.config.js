@@ -12,9 +12,7 @@ module.exports = (env, options) => ({
       new OptimizeCSSAssetsPlugin({})
     ]
   },
-  entry: {
-    "./js/app.js": ["./js/app.js"].concat(glob.sync("./vendor/**/*.js"))
-  },
+  entry: "./js/app.js",
   output: {
     filename: "app.js",
     path: path.resolve(__dirname, "../priv/static/js")
@@ -28,11 +26,23 @@ module.exports = (env, options) => ({
           loader: "babel-loader"
         }
       },
+
+      {
+        test: /\.elm$/,
+        exclude: ["/elm-stuff", "/node_modules"],
+        loader: "elm-webpack-loader",
+        options: {
+          debug: true,
+          warn: false,
+          cwd: path.resolve(__dirname, "elm")
+        }
+      },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"]
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]
       }
-    ]
+    ],
+    noParse: [/.elm$/]
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: "../css/app.css" }),
